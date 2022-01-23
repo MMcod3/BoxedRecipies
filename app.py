@@ -1,6 +1,6 @@
 import os
 from flask import (
-    Flask, render_template, url_for, 
+    Flask, render_template, url_for,
     redirect, request, flash, session)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -18,8 +18,8 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-def hello():
-    return "hello world!"
+def recipies():
+    return render_template("recipies.html")
 
 
 if __name__ == "__main__":
