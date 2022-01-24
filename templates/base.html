@@ -21,7 +21,7 @@
               <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
               <ul class="right hide-on-med-and-down brown-text text-lighten-5">
                 <li><a href="{{ url_for('recipes')}}"><h5>Recipes</h5></a></li>
-                <li><a href="#"><h5>Log in</h5></a></li>
+                <li><a href="{{ url_for('login')}}"><h5>Log in</h5></a></li>
                 <li><a href="#"><h5>Log out</h5></a></li>
                 <li><a href="{{ url_for('register') }}"><h5>Register</h5></a></li>
               </ul>
@@ -32,11 +32,25 @@
           <ul class="sidenav" id="mobile-demo">
             <li><h4 class="centre-align indigo-text text-dark-4">Boxed Recipes</h4></li>
             <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
-            <li><a href="#">Log in</a></li>
+            <li><a href="{{ url_for('login')}}">Log in</a></li>
             <li><a href="#">Log out</a></li>
             <li><a href="{{ url_for('register') }}">Register</a></li>
           </ul>
     </header>
+
+    <section>
+      <!-- flash messages -->
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  <div class="row flashes">
+                      <h4 class="indigo lighten-4 center-align">{{ message }}</h4>
+                  </div>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+  </section>
+
      <!-- Main Content -->
     <main class="main">
       <div class="container">

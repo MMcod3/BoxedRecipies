@@ -43,3 +43,8 @@ nav {
 .register {
     border-radius: 25px;
 }
+
+.redirect {
+    font-weight: 900;
+    font-size: 170%;
+}
