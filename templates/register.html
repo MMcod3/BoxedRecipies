@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header class="header-text center-align indigo-text text-darken-4">
+    <h1>{{ page_title }}</h1>
+</header>
+    <div class="row">
+        <form class="col s12 m8 offset-m2 indigo lighten-5" method="POST" action="{{ url_for('register') }}">
+            
+                <!-- username and password -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="material-icons prefix">account_circle</i>
+						<input id="username" name="username" type="text" class="validate">
+						<label for="username">Username</label>
+					</div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+						<i class="material-icons prefix">password</i>
+                        <input id="password" name="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <!-- register -->
+                <div class="row">
+                    <button type="submit" class="text-align col s12 btn-large indigo lighten-1">
+                        Register 
+                    </button>
+                </div>
+            
+        </form>
+    </div>
+
+{% endblock %}

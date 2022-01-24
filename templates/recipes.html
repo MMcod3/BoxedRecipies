@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header class="header-text center-align indigo-text text-darken-4">
+    <h1>{{ page_title }}</h1>
+    <p class="lrg-paragraph-txt"><strong>Search and filter recipes</strong></p>
+</header>
+
+<div class="container col s12 m10 offset-m1 indigo lighten-5 content-container" id="recipe-search">
+    <div class="row mb-10">
+            
+        <form>
+            <div class="col s7 m4">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix teal-text text-darken-1">search</i>
+                    <input id="recipe_search" name="recipe_search" type="text" autocomplete="off">
+                    <label for="recipe_search">Search</label>
+                </div>
+            </div>
+            <div class="col s5 m2">
+                <button class="btn indigo lighten-1 submit-btn mt-50" type="submit" id="recipe-search-btn">Search</button>
+            </div>
+        </form>
+        
+        <form>
+            <div class="col s7 m4">
+                <div class="input-field col s12" id="cuisine-select">
+                    <select id="cuisine-filter" name="cuisine_select">
+                        <option value="" disabled selected>Cuisine</option>
+                        {% for cuisine in cuisines %}
+                        <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="cuisine-filter">Filter by Cuisine</label>
+                </div>
+            </div>
+            <div class="col s5 m2">
+                <button class="btn indigo lighten-1 submit-btn mt-20" type="submit" id="cusine-filter-btn">Filter</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row  indigo-text text-ligten-2 center-align s-mt-20">
+            <a href="{{ url_for('recipes') }}" class="indigo lighten-1 btn-small centre-align ml-20">Reset</a>
+            <p class="mt-20"><strong>
+            {% if recipes|length <= 0 %}
+                No Results 
+            {% elif recipes|length == 1 %}
+                1 Result 
+            {% else %}
+                {{recipes|length}} Results
+            {% endif %}
+            </strong></p>
+    </div>
+
+</div>
+{% endblock %}

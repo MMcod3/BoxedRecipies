@@ -4,43 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
-        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% block styles %}
     {% endblock %}
-    <title>Boxed Recipies</title>
+    <title>Boxed Recipes</title>
 </head>
 <body>
 
     <header>
         <!-- Top Nav bar -->
         <nav>
-            <div class="nav-wrapper text-shadow indigo darken-2">
-              <a href="{{ url_for('recipies')}}" class="brand-logo center"><h4>Boxed Recipies</h4></a>
+            <div class="nav-wrapper indigo lighten-1 text-shadow">
+              <a href="{{ url_for('recipes')}}" class="brand-logo brown-text text-lighten-5"><h3>Boxed Recipes</h3></a>
               <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
-              <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('recipies')}}">Recipies</a></li>
-                <li><a href="#">Log in</a></li>
-                <li><a href="#">Log out</a></li>
-                <li><a href="#">Register</a></li>
+              <ul class="right hide-on-med-and-down brown-text text-lighten-5">
+                <li><a href="{{ url_for('recipes')}}"><h5>Recipes</h5></a></li>
+                <li><a href="#"><h5>Log in</h5></a></li>
+                <li><a href="#"><h5>Log out</h5></a></li>
+                <li><a href="{{ url_for('register') }}"><h5>Register</h5></a></li>
               </ul>
             </div>
           </nav>
 
         <!-- Mobile Nav bar-->
           <ul class="sidenav" id="mobile-demo">
-            <li><h4 class="centre-align indigo-text text-dark-4">Boxed Recipies</h4></li>
-            <li><a href="{{ url_for('recipies')}}">Recipies</a></li>
+            <li><h4 class="centre-align indigo-text text-dark-4">Boxed Recipes</h4></li>
+            <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
             <li><a href="#">Log in</a></li>
             <li><a href="#">Log out</a></li>
-            <li><a href="#">Register</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
           </ul>
     </header>
+     <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <div class="row">
+          {% block content %}
+          {% endblock %}
+              
+             
+              
+        </div>
+      </div>
+    </main>
 
-    {% block content %}
-    {% endblock %}
+
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

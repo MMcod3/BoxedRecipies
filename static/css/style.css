@@ -1,4 +1,45 @@
 .text-shadow {
-    text-shadow: 2px 2px #78909c;
-    color: white;
+    text-shadow: 4px 4px black;
+}
+
+body {
+    background-image: url('https://img1.wsimg.com/isteam/stock/29307/:/');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: "Times New Roman", Times, serif;
+}
+
+nav {
+    height: 70px;
+    line-height: 70px;
+    border-bottom: 3px solid black;
+}
+
+.brand-logo {
+    position: relative; 
+    top: -20px;
+}
+
+.header-text {
+    font-weight: 900;
+    font-size: 170%;
+    line-height: 50%;
+}
+
+#recipe-search {
+    padding: 20px;
+}
+
+#cuisine-select {
+    margin-left: 25px;
+}
+
+.content-container {
+    border-radius: 25px;
+}
+
+.register {
+    border-radius: 25px;
 }
