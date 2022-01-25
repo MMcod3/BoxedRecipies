@@ -17,6 +17,12 @@ nav {
     border-bottom: 3px solid black;
 }
 
+@media only screen and (max-width: 600px) {
+    .s-logo {
+      font-size: 1em;
+    }
+}
+
 .brand-logo {
     position: relative; 
     top: -20px;
