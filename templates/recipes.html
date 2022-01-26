@@ -6,19 +6,20 @@
     <p class="lrg-paragraph-txt"><strong>Search and filter recipes</strong></p>
 </header>
 
+
 <div class="container col s12 m10 offset-m1 indigo lighten-5 content-container" id="recipe-search">
     <div class="row mb-10">
             
-        <form>
+        <form action="{{ url_for('search') }}" method="post">
             <div class="col s7 m4">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix teal-text text-darken-1">search</i>
-                    <input id="recipe_search" name="recipe_search" type="text" autocomplete="off">
-                    <label for="recipe_search">Search</label>
+                    <i class="material-icons prefix indigo-text text-lighten-1">search</i>
+                    <input type="text" name="query" id="query" minlength="3" class="validate" required>
+                    <label for="query">Search</label>
                 </div>
             </div>
             <div class="col s5 m2">
-                <button class="btn indigo lighten-1 submit-btn mt-50" type="submit" id="recipe-search-btn">Search</button>
+                <button class="btn indigo lighten-1 submit-btn mt-50" type="submit">Search</button>
             </div>
         </form>
         
@@ -28,7 +29,7 @@
                     <select id="cuisine-filter" name="cuisine_select">
                         <option value="" disabled selected>Cuisine</option>
                         {% for cuisine in cuisines %}
-                        <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
+                        <option value="{{ cuisine.title }}">{{ cuisine.title }}</option>
                         {% endfor %}
                     </select>
                     <label for="cuisine-filter">Filter by Cuisine</label>
@@ -40,18 +41,74 @@
         </form>
     </div>
 
-    <div class="row  indigo-text text-ligten-2 center-align s-mt-20">
-            <a href="{{ url_for('recipes') }}" class="indigo lighten-1 btn-small centre-align ml-20">Reset</a>
-            <p class="mt-20"><strong>
-            {% if recipes|length <= 0 %}
-                No Results 
-            {% elif recipes|length == 1 %}
-                1 Result 
-            {% else %}
-                {{recipes|length}} Results
-            {% endif %}
-            </strong></p>
-    </div>
+    <div class="row row-button indigo-text text-ligten-2 left-align s-mt-20">
+        <a href="{{ url_for('all_recipes') }}" class="indigo lighten-1 btn-small reset  ml-50">Reset</a>
+        {% if user %}
+            <a class="indigo lighten-1 btn-small"><i class="material-icons left">add</i>Add recipe</a>
+        {% endif %}
+        <p class="mt-20"><strong>
+        {% if recipes|length <= 0 %}
+            No Results 
+        {% elif recipes|length == 1 %}
+            1 Result 
+        {% else %}
+            {{recipes|length}} Results
+        {% endif %}
+        </strong></p>
+        {% if user %}
+            
+        {% endif %}
 
+    </div>
+    
+   
 </div>
+
+<div class="container col s12 m12 l10 white-text offset-l1 content-container">
+    <div class="row">
+        {% if recipes|length <= 0%}
+        <div class="card horizontal col s12 m6 l6 offset-l3 indigo lighten-2">
+            <div class="card-stacked indigo lighten-2">
+                <div class="card-content">
+                    <h5>No results for this recipe name<i class="material-icons">sentiment_very_dissatisfied</i></h5>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% for recipe in recipes %}
+                <div class="col s12 m6 l6 xl4 recipe-card">
+                    <div class="card indigo lighten-4">
+                        <div class="card-image">
+                            <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" class="cover">
+                        </div>
+                        <div class="card-content">
+                            <h6>{{ recipe.title}}</h6>
+                            <h6>{{ recipe.cuisine }}</h6>
+                            <p class="grey-text author-text">By: <span class="grey-text text-darken-3">{{ recipe.author }}</span></p>
+                        </div>
+                        <div class="card-action">
+                            <a href="/recipe/{{ recipe._id }}" class="waves-effect waves-light btn-small m-4">View</a>
+                            {% if user == recipe.author %}
+                                <a href="/edit_recipe/{{ recipe._id }}" class="waves-effect waves-light btn-small indigo darken-2 m-4"><i class="small material-icons">edit</i></a>
+                                <a href="#warning" data-target="warning-{{ recipe._id }}" class="waves-effect waves-light btn-small red darken-2 m-4 modal-trigger"><i class="small material-icons">delete</i></a>
+                                <div id="warning-{{ recipe._id }}" class="modal">
+                                    <div class="modal-content">
+                                        <h4>Delete Recipe</h4>
+                                        <p>Are you sure you want to delete this recipe?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-light btn-small">Back</a>
+                                        <a href="/delete_recipe/{{ recipe._id }}" class="waves-effect waves-light btn-small red darken-2">Yes, Delete</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>  
+</div>
+
+
 {% endblock %}

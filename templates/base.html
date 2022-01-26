@@ -20,10 +20,10 @@
       <!-- Top Nav bar -->
     <nav> 
       <div class="nav-wrapper indigo lighten-1 text-shadow">
-        <a href="{{ url_for('recipes')}}" class="brand-logo brown-text text-lighten-5"><h3>Boxed Recipes</h3></a>
+        <a href="{{ url_for('all_recipes')}}" class="brand-logo s-logo brown-text text-lighten-5"><h3>Boxed Recipes</h3></a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down brown-text text-lighten-5">
-          <li><a href="{{ url_for('recipes') }}"><h5>Recipes</h5></a></li>
+          <li><a href="{{ url_for('all_recipes') }}"><h5>Recipes</h5></a></li>
           {% if session.user %}
             <li><a href="{{ url_for('logout') }}"><h5>Log out</h5></a></li>
           {% else %}
@@ -37,7 +37,7 @@
       <!-- Mobile Nav bar-->
       <ul class="sidenav" id="mobile-demo">
         <li><h4 class="centre-align indigo-text text-dark-4">Boxed Recipes</h4></li>
-        <li><a href="{{ url_for('recipes') }}"><h5>Recipes</h5></a></li>
+        <li><a href="{{ url_for('all_recipes') }}"><h5>Recipes</h5></a></li>
         {% if session.user %}
           <li><a href="{{ url_for('logout') }}"><h5>Log out</h5></a></li>
         {% else %}
