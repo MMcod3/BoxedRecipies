@@ -29,8 +29,21 @@ def all_recipes():
 
 
 
-@app.route("/add_recipe")
+@app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
+    if request.method == "POST":
+        recipe = {
+            "title": request.form.get("title"),
+            "cuisine": reuqest.form.get("cuisine_name"),
+            "allergens": reuqest.form.getlist("Allergen_name"),
+            "ingredients": request.form.getlist("ingredients_name"),
+            "instructions": reuqest.form.getlist("instructions_name"),
+            "author": session["user"]
+        }
+        mongo.db.recipies.insert_one(recipe)
+        flash("Recipe added!")
+        return redirect(url_for("all_recipes"))
+
     cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', 1))
     ingredients = list(mongo.db.ingredients.find().sort('ingredient_name', 1))
     allergens = list(mongo.db.allergens.find().sort('Allergen_name', 1))
