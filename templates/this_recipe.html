@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container col s12 m10 offset-m1 indigo lighten-4 content-container mt-40" id="recipe-search">
+        <div class="row">
+                <header class="header-text center-align indigo-text text-darken-4">
+                    <h1><strong>{{ recipe.title }}</strong></h1>
+                    <h5 class="indigo-text text-darken-3"><em>{{ recipe.cuisine }}</em></h5>
+                    <p class="grey-text author-text">By: <span class="grey-text text-darken-3">{{ recipe.author }}</span></p>
+                </header>
+        </div>
+        <div class="row">
+            <div class="col s12 l4">
+                <div class="lrg-paragraph-txt white-text">
+                    <h5 class="ml-20 ingredients indigo-text text-darken-3">Ingredients</h5>
+                    <ul class="collection indigo darken-3">
+                        {% for ingredient in recipe.ingredients %}
+                            <li class="collection-item indigo darken-3">{{ ingredient }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col s12 m7 l8 indigo-text text-darken-4">
+                <h5 class="ml-20 method">Method</h5>
+                <ol>
+                    {% for step in recipe.instructions %}
+                        <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        <div class="center-align mb-20 mt-40">
+            <a href="{{ url_for('all_recipes') }}" class="waves-effect waves-light btn-small indigo darken-3">Back</a>
+            {% if user == recipe.author %}
+                <a href="/edit_recipe/{{ recipe._id }}" class="waves-effect waves-light btn-small indigo darken-2">Edit</a>
+                <a href="#warning" data-target="warning" class="waves-effect waves-light btn-small red darken-2 modal-trigger">Delete</a>
+                <div id="warning" class="modal">
+                    <div class="modal-content">
+                        <h4>Delete Recipe</h4>
+                        <p>Are you sure you want to delete this recipe?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-light btn-small">Back</a>
+                        <a href="/delete_recipe/{{ recipe._id }}" class="waves-effect waves-light btn-small red darken-2">Yes, Delete</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+            
+
+
+{% endblock %}

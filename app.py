@@ -89,6 +89,14 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route('/this_recipe/<recipe_id>/')
+def recipe(recipe_id):
+    this_recipe = mongo.db.recipies.find_one({'_id': ObjectId(recipe_id)})
+    recipe_id = str(this_recipe['_id'])
+    allergens = list(mongo.db.allergens.find())
+    return render_template('this_recipe.html', recipe=this_recipe, allergens=allergens, recipe_id=recipe_id)
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),

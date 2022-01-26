@@ -123,3 +123,16 @@ div.row-button {
     left: 100px;
     position: relative;
 }
+
+.div-header {
+    width: 50%;
+
+}
+
+.ingredients {
+    text-align: center;
+}
+
+h5.method {
+    text-align: center;
+}
