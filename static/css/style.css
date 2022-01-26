@@ -129,6 +129,18 @@ div.row-button {
 
 }
 
+.ingredients-list li {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.add-ingredient-btn,
+.remove-ingredient-btn,
+.add-step-btn,
+.remove-step-btn {
+    margin: 5px;
+}
 .ingredients {
     text-align: center;
 }

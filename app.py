@@ -28,7 +28,6 @@ def all_recipes():
         "recipes.html", page_title="Recipes", recipes=recipes, user=user )
 
 
-
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
@@ -126,11 +125,13 @@ def recipe(recipe_id):
     allergens = list(mongo.db.allergens.find())
     return render_template('this_recipe.html', recipe=this_recipe, allergens=allergens, recipe_id=recipe_id)
 
+
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     mongo.db.recipies.remove({'_id': ObjectId(recipe_id)})
     flash('Recipe has been deleted')
     return redirect(url_for('all_recipes'))
+
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
@@ -144,12 +145,14 @@ def edit_recipe(recipe_id):
         }
         mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
         flash("Recipe Edited!")
-        return redirect(url_for("all_recipes")    
+        return redirect(url_for("all_recipes"))    
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
         debug=False)
+
+
 
 

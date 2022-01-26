@@ -45,16 +45,16 @@
                 <hr class="mb-50">
 
                   <!-- Ingredients section -->
-                  <div class="row">
+                <div class="row">
                     <div class="ingredients">
                         <h5 class="mb-20 center-align indigo-text text-darken-4"><strong>Ingredients</strong></h5>
-                        <div class="ingredient">
+                        <div class="ingredient row">
                             <div class="input-field col s4">
                                 <input id="quantity" name="ingredient-qty-1" type="text" class="validate" autocomplete="off" required>
                                 <label for="quantity">Quantity</label>
                             </div>
-                            <div class="input-field col s8">
-                                <select class="ingredient-list" name="ingredient_name" required>
+                            <div class="input-field col offset-s4 s8">
+                                <select class="ingredient-list validate wrapper" name="ingredient_name" required>
                                     <option value="" disabled selected>Select Ingredient</option>
                                     {% for ingredient in ingredients %}
                                     <option value="{{ ingredient.ingredient_name }}">{{ ingredient.ingredient_name }}</option>
