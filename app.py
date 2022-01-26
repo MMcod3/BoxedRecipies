@@ -24,18 +24,22 @@ def all_recipes():
     recipes = list(mongo.db.recipies.find())
     user = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
-    if session["user"]:
-        return render_template(
-            "recipes.html", page_title="Recipes", recipes=recipes, user=user )
+    return render_template(
+        "recipes.html", page_title="Recipes", recipes=recipes, user=user )
+
 
 
 @app.route("/add_recipe")
 def add_recipe():
+    cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', 1))
+    ingredients = list(mongo.db.ingredients.find().sort('ingredient_name', 1))
+    allergens = list(mongo.db.allergens.find().sort('Allergen_name', 1))
     user = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
     if session["user"]:
         return render_template(
-            "add_recipe.html", page_title="Share Your Recipe", user=user)
+            "add_recipe.html", page_title="Share Your Recipe",
+            user=user, cuisines=cuisines, ingredients=ingredients, allergens=allergens)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -46,7 +50,6 @@ def search():
         "recipes.html", page_title="Recipes", recipes=recipes)
 
 
-#
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":

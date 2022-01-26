@@ -26,10 +26,10 @@
         <form>
             <div class="col s7 m4">
                 <div class="input-field col s12" id="cuisine-select">
-                    <select id="cuisine-filter" name="cuisine_select">
+                    <select id="cuisine-name" name="cuisine_name">
                         <option value="" disabled selected>Cuisine</option>
                         {% for cuisine in cuisines %}
-                        <option value="{{ cuisine.title }}">{{ cuisine.title }}</option>
+                        <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
                         {% endfor %}
                     </select>
                     <label for="cuisine-filter">Filter by Cuisine</label>
