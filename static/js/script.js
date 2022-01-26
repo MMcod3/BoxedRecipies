@@ -30,3 +30,39 @@ validateMaterializeSelect();
       });
   }
 });
+
+ // Initialise form select options
+ let selects = document.querySelectorAll('select');
+ let selectInstances = M.FormSelect.init(selects);
+ 
+ // Initialise modal for delete buttons
+ if ($('.modal')) {
+     $('.modal').modal();
+ }
+
+  // Add button functionality for ingredients ingredients
+  let ingredientCount = $('.ingredient').length + 1;
+  $('.add-ingredient-btn').click(function() {
+      let newIngredient = document.createElement('div');
+      newIngredient.className = 'ingredient';
+      let htmlString = 
+          `<div class="input-field col s4">
+              <input id="quantity" name="ingredient-qty-${ingredientCount}" type="text" class="validate" autocomplete="off" required>
+              <label for="quantity">Quantity</label>
+          </div>
+          <div class="input-field col s8">
+              <select id="ingredient" name="ingredient-name-${ingredientCount}" required>
+                  <option value="" disabled selected>Select Ingredient</option>`;
+      for (let i = 0; i < ingredients.length; i++) {
+          htmlString += `<option value="${ingredients[i]}">${ingredients[i]}</option>`
+      }
+      htmlString += `</select>
+          </div>`;
+      newIngredient.innerHTML = htmlString;
+      $('.ingredients').append(newIngredient);
+      ingredientCount++;
+      
+      // re-initialise selects on the page
+      selects = document.querySelectorAll('select');
+      selectInstances = M.FormSelect.init(selects);
+  })

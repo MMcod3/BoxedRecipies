@@ -6,7 +6,7 @@
     </header>
     <div class="container col s12 indigo lighten-4 content-container" id="login-form">
         <div class="row card-panel indigo lighten-4">
-            <form action="" method="POST">
+            <form action="{{ url_for('add_recipe') }}" method="POST">
                 <div class="row indigo-text text-darken-4">
                     <div class="input-field col s10 centre-align">
                         <input id="title" name="title" type="text" class="validate white-text" autocomplete="off" maxlength="30" autofocus required>
@@ -113,7 +113,6 @@
     </div>
 
 
-            </form>
                     
 
 {% endblock %}

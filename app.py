@@ -126,17 +126,30 @@ def recipe(recipe_id):
     allergens = list(mongo.db.allergens.find())
     return render_template('this_recipe.html', recipe=this_recipe, allergens=allergens, recipe_id=recipe_id)
 
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    mongo.db.recipies.remove({'_id': ObjectId(recipe_id)})
+    flash('Recipe has been deleted')
+    return redirect(url_for('all_recipes'))
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
-    cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', pymongo.ASCENDING))
-    ingredients = list(mongo.db.ingredients.find().sort('ingredient_name', pymongo.ASCENDING))
-    allergens = list(mongo.db.allergens.find())
-    this_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
-    return render_template('edit_recipe.html', cuisines=cuisines, ingredients=ingredients, allergens=allergens, recipe=this_recipe, user=session["user"])
+    if request.method == "POST":
+        submit = {
+            "title": request.form.get("title"),
+            "allergens": reuqest.form.getlist("Allergen_name"),
+            "ingredients": request.form.getlist("ingredients_name"),
+            "instructions": reuqest.form.getlist("instructions_name"),
+            "author": session["user"]
+        }
+        mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
+        flash("Recipe Edited!")
+        return redirect(url_for("all_recipes")    
 
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
-            port=int(os.environ.get("PORT")),
-            debug=True)
+        port=int(os.environ.get("PORT")),
+        debug=False)
+
+
