@@ -22,14 +22,28 @@ mongo = PyMongo(app)
 @app.route("/all_recipes")
 def all_recipes():
     recipes = list(mongo.db.recipies.find())
-    return render_template("recipes.html", page_title="Recipes", recipes=recipes)
+    user = mongo.db.users.find_one(
+        {"username": session["user"]})["username"]
+    if session["user"]:
+        return render_template(
+            "recipes.html", page_title="Recipes", recipes=recipes, user=user )
+
+
+@app.route("/add_recipe")
+def add_recipe():
+    user = mongo.db.users.find_one(
+        {"username": session["user"]})["username"]
+    if session["user"]:
+        return render_template(
+            "add_recipe.html", page_title="Share Your Recipe", user=user)
 
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
     query = request.form.get("query")
     recipes = list(mongo.db.recipies.find({"$text": {"$search": query}}))
-    return render_template("recipes.html", page_title="Recipes", recipes=recipes)
+    return render_template(
+        "recipes.html", page_title="Recipes", recipes=recipes)
 
 
 #

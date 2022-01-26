@@ -6,7 +6,7 @@
     <p class="lrg-paragraph-txt"><strong>Search and filter recipes</strong></p>
 </header>
 
-
+<!-- search form-->
 <div class="container col s12 m10 offset-m1 indigo lighten-5 content-container" id="recipe-search">
     <div class="row mb-10">
             
@@ -40,11 +40,11 @@
             </div>
         </form>
     </div>
-
-    <div class="row row-button indigo-text text-ligten-2 left-align s-mt-20">
+<!-- add recipe button and reset button-->
+    <div class="row row-button indigo-text text-ligten-2 s-mt-20">
         <a href="{{ url_for('all_recipes') }}" class="indigo lighten-1 btn-small reset  ml-50">Reset</a>
         {% if user %}
-            <a class="indigo lighten-1 btn-small"><i class="material-icons left">add</i>Add recipe</a>
+            <a href="{{ url_for('add_recipe') }}" class="indigo lighten-1 btn-small "><i class="material-icons left">add</i>Add recipe</a> 
         {% endif %}
         <p class="mt-20"><strong>
         {% if recipes|length <= 0 %}
@@ -75,6 +75,7 @@
             </div>
         </div>
         {% else %}
+        <!-- all recipes or searched recipes-->
             {% for recipe in recipes %}
                 <div class="col s12 m6 l6 xl4 recipe-card">
                     <div class="card indigo lighten-4">
