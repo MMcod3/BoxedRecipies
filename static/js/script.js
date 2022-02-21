@@ -28,8 +28,7 @@ validateMaterializeSelect();
               });
           }
       });
-  }
-});
+    };
 
 
 // Initialise modal for delete buttons
@@ -96,5 +95,5 @@ $(document).ready(function(){
         $('.step').last().remove();
         if (stepCount >= 2) {
             stepCount--;    
+            }
         }
-    })

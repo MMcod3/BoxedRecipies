@@ -1,7 +1,7 @@
 import os
 from flask import (
     Flask, render_template, url_for,
-    redirect, request, flash, session)
+    redirect, request, flash, session, g)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -18,14 +18,21 @@ app.secret_key = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 
 
+# Before each request manage session user
+@app.before_request
+def before_request():
+    g.user = None
+    if "user" in session:
+        g.user = session['user']
+
+
+# Displays all recipes
 @app.route("/")
 @app.route("/all_recipes")
 def all_recipes():
     recipes = list(mongo.db.recipies.find())
-    user = mongo.db.users.find_one(
-        {"username": session["user"]})["username"]
     return render_template(
-        "recipes.html", page_title="Recipes", recipes=recipes, user=user )
+        "recipes.html", page_title="Recipes", recipes=recipes, user=g.user)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -33,10 +40,10 @@ def add_recipe():
     if request.method == "POST":
         recipe = {
             "title": request.form.get("title"),
-            "cuisine": reuqest.form.get("cuisine_name"),
-            "allergens": reuqest.form.getlist("Allergen_name"),
+            "cuisine": request.form.get("cuisine_name"),
+            "allergens": request.form.getlist("Allergen_name"),
             "ingredients": request.form.getlist("ingredients_name"),
-            "instructions": reuqest.form.getlist("instructions_name"),
+            "instructions": request.form.getlist("instructions_name"),
             "author": session["user"]
         }
         mongo.db.recipies.insert_one(recipe)
@@ -51,7 +58,8 @@ def add_recipe():
     if session["user"]:
         return render_template(
             "add_recipe.html", page_title="Share Your Recipe",
-            user=user, cuisines=cuisines, ingredients=ingredients, allergens=allergens)
+            user=user, cuisines=cuisines, ingredients=ingredients,
+            allergens=allergens)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -138,9 +146,9 @@ def edit_recipe(recipe_id):
     if request.method == "POST":
         submit = {
             "title": request.form.get("title"),
-            "allergens": reuqest.form.getlist("Allergen_name"),
+            "allergens": request.form.getlist("Allergen_name"),
             "ingredients": request.form.getlist("ingredients_name"),
-            "instructions": reuqest.form.getlist("instructions_name"),
+            "instructions": request.form.getlist("instructions_name"),
             "author": session["user"]
         }
         mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
@@ -150,9 +158,6 @@ def edit_recipe(recipe_id):
 
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
-        port=int(os.environ.get("PORT")),
-        debug=False)
-
-
-
+            port=int(os.environ.get("PORT")),
+            debug=True)
 
