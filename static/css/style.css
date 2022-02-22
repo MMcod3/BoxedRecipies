@@ -32,7 +32,7 @@ nav {
     font-weight: 900;
     font-size: 170%;
     line-height: 50%;
-    width: 300px;
+    width: 100%;
     margin: auto;
 }
 
@@ -42,6 +42,11 @@ nav {
 
 #cuisine-select {
     margin-left: 25px;
+}
+
+.submit-btn {
+    display: block;
+    margin: 0 auto;
 }
 
 .content-container {
@@ -129,10 +134,14 @@ div.row-button {
 
 }
 
-.ingredients-list li {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
+
+
+.input-field.col.offset-s4.s8 {
+    margin-left: 0%
+}
+
+a.waves-effect.waves-light.btn.red.darken-3.submit-btn.mt-20 {
+    max-width: 117.72px
 }
 
 .add-ingredient-btn,

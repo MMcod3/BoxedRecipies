@@ -31,8 +31,10 @@ def before_request():
 @app.route("/all_recipes")
 def all_recipes():
     recipes = list(mongo.db.recipies.find())
+    cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', 1))
     return render_template(
-        "recipes.html", page_title="Recipes", recipes=recipes, user=g.user)
+        "recipes.html", page_title="Recipes", recipes=recipes,
+         user=g.user, cuisines=cuisines)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -136,7 +138,7 @@ def recipe(recipe_id):
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
-    mongo.db.recipies.remove({'_id': ObjectId(recipe_id)})
+    mongo.db.recipies.delete_one({'_id': ObjectId(recipe_id)})
     flash('Recipe has been deleted')
     return redirect(url_for('all_recipes'))
 
@@ -153,7 +155,18 @@ def edit_recipe(recipe_id):
         }
         mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
         flash("Recipe Edited!")
-        return redirect(url_for("all_recipes"))    
+        return redirect(url_for("all_recipes"))
+
+    cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', 1))
+    ingredients = list(mongo.db.ingredients.find().sort('ingredient_name', 1))
+    allergens = list(mongo.db.allergens.find().sort('Allergen_name', 1))
+    user = mongo.db.users.find_one(
+        {"username": session["user"]})["username"]
+    if session["user"]:
+        return render_template(
+            "add_recipe.html", page_title="Update Recipe",
+            user=user, cuisines=cuisines, ingredients=ingredients,
+            allergens=allergens)    
 
 
 if __name__ == '__main__':
