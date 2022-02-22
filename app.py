@@ -167,17 +167,40 @@ def delete_recipe(recipe_id):
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
     if request.method == "POST":
+        instructions = []
+        method = []
+        for instruction in request.form.to_dict():
+            if 'method' in instruction:
+                instructions.append(instruction)
+        for i in range(1, len(instructions) + 1):
+            method.append(request.form.get('method-' + str(i)))
+
+        ingredients = []
+        quantity = []
+        ingredient = []
+        for ing in request.form.to_dict():
+            if 'ingredient-qty-' in ing:
+                quantity.append(ing)
+            if 'ingredient-name-' in ing:
+                ingredient.append(ing)
+        for i in range(1, len(quantity) + 1):
+            quantity = request.form.get('ingredient-qty-' + str(i))
+            ingredient = request.form.get('ingredient-name-' + str(i))
+            ingredients.append([quantity, ingredient])
+           
         submit = {
             "title": request.form.get("title"),
+            "cuisine": request.form.get("cuisine_name"),
             "allergens": request.form.getlist("Allergen_name"),
-            "ingredients": request.form.getlist("ingredients_name"),
-            "instructions": request.form.getlist("instructions_name"),
+            "ingredients": ingredients,
+            "instructions": method,
             "author": session["user"]
         }
         mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
         flash("Recipe Edited!")
         return redirect(url_for("all_recipes"))
 
+    recipe = mongo.db.recipies.find_one({"_id": ObjectId(recipe_id)})
     cuisines = list(mongo.db.cuisines.find().sort('cuisine_name', 1))
     ingredients = list(mongo.db.ingredients.find().sort('ingredient_name', 1))
     allergens = list(mongo.db.allergens.find().sort('Allergen_name', 1))
@@ -185,9 +208,9 @@ def edit_recipe(recipe_id):
         {"username": session["user"]})["username"]
     if session["user"]:
         return render_template(
-            "add_recipe.html", page_title="Update Recipe",
+            "edit_recipe.html", page_title="Update Recipe",
             user=user, cuisines=cuisines, ingredients=ingredients,
-            allergens=allergens)    
+            allergens=allergens, recipe=recipe)    
 
 
 if __name__ == '__main__':

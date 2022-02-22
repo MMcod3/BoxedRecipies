@@ -7,6 +7,7 @@
     <div class="container col s12 indigo lighten-4 content-container" id="login-form">
         <div class="row card-panel indigo lighten-4">
             <form action="{{ url_for('edit_recipe', recipe_id=recipe._id) }}" method="POST">
+                <!-- recipe title -->
                 <div class="row indigo-text text-darken-4">
                     <div class="input-field col s10 centre-align">
                         <input id="title" name="title" type="text" class="validate white-text" value="{{ recipe.title }}" autocomplete="off" maxlength="30" autofocus required>
@@ -41,6 +42,7 @@
                                         <input type="checkbox" class="filled-in" name="Allergen_name" checked/>
                                     {% else %}
                                         <input type="checkbox" class="filled-in" name="Allergen_name"/>
+                                    {% endif %}
                                         <span>{{ allergen.Allergen_name }}</span>
                                 </label>
                             </p>
@@ -55,20 +57,27 @@
                   <div class="row">
                     <div class="ingredients">
                         <h5 class="mb-20 center-align indigo-text text-darken-4"><strong>Ingredients</strong></h5>
+
+                        {% for ingredient in recipe.ingredients %}
                         <div class="ingredient">
                             <div class="input-field col s4">
-                                <input id="quantity" name="ingredient-qty-1" type="text" class="validate" autocomplete="off" required>
+                                <input id="quantity" name="ingredient-qty-{{ loop.index }}" type="text" value="{{ ingredient[0] }}" class="validate" autocomplete="off" required>
                                 <label for="quantity">Quantity</label>
                             </div>
                             <div class="input-field col s8">
-                                <select class="ingredient-list" name="ingredient_name" required>
+                                <select class="ingredient-list" name="ingredient-name-{{ loop.index }}" required>
                                     <option value="" disabled selected>Select Ingredient</option>
                                     {% for ingredient in ingredients %}
-                                    <option value="{{ ingredient.ingredient_name }}">{{ ingredient.ingredient_name }}</option>
+                                        {% if ingredient.ingredient_name == ingredient[1] %}
+                                            <option value="{{ ingredient.ingredient_name }}" selected>{{ ingredient.ingredient_name }}</option>
+                                        {% else %}
+                                            <option value="{{ ingredient.ingredient_name }}">{{ ingredient.ingredient_name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                     <div class="row">
                         <div class="col s12" id="ingredients-buttons">
@@ -87,32 +96,37 @@
                 <hr class="mb-40">
 
 
+                <!-- Method update -->
                 <div class="row">
                     <div class="method">
                         <h5 class="mb-0 center-align indigo-text text-darken-4"><strong>Method</strong></h5>
                         <div class="input-field col s12 mt-0">
-                            <ol id="steps-list" class="mt-10">
-                                <li class="step">
-                                    <input name="step-1" type="text" class="validate" autocomplete="off" required>
+                            <ol id="method-list" class="mt-10">
+
+                                {% for step in recipe.instructions %}
+                                <li class="method">
+                                    <input name="method-{{ loop.index }}" value="{{ method }}" type="text" class="validate" autocomplete="off" required>
                                 </li>
+                                {% endfor %}
+
                             </ol>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12" id="method-buttons">
                             <div class="col s12 m6 l4">
-                                <a class="waves-effect waves-light btn-floating indigo btn-small add-step-btn" name="add-step-btn"><i class="material-icons left">add</i></a>
-                                <label for="add-step-btn">Add Next Step</label>
+                                <a class="waves-effect waves-light btn-floating indigo btn-small add-method-btn" name="add-method-btn"><i class="material-icons left">add</i></a>
+                                <label for="add-method-btn">Add Next Instruction</label>
                             </div>
                             <div class="col s12 m6 l4">
-                                <a class="waves-effect waves-light indigo btn-floating btn-small remove-step-btn" name="remove-step-btn"><i class="material-icons left">remove</i></a>
-                                <label for="remove-step-btn">Remove Last Step</label>
+                                <a class="waves-effect waves-light indigo btn-floating btn-small remove-method-btn" name="remove-method-btn"><i class="material-icons left">remove</i></a>
+                                <label for="remove-method-btn">Remove Last Instruction</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--Submit Recipe-->
-                <button class="btn waves-effect waves-light indigo edit-btn" type="submit" name="action">Edit Recipe</button>
+                <button class="btn waves-effect waves-light indigo submit-btn" type="submit" name="action">Edit Recipe</button>
                 <a href="{{ url_for('all_recipes') }}" class="waves-effect waves-light btn red darken-3 submit-btn mt-20">Cancel</a>
             </form>
             
