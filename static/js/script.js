@@ -81,7 +81,7 @@ $(document).ready(function(){
     });
 
     // Add method button functionality
-    let methodNumber = $('.method').length + 1;
+    let methodNumber = $('.method').length;
     $('.add-method-btn').click(function() {
         let htmlString = `<li class="method">
                             <input name="method-${methodNumber}" type="text" class="validate" autocomplete="off" required>

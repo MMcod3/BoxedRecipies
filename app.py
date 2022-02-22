@@ -40,12 +40,33 @@ def all_recipes():
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
+        instructions = []
+        method = []
+        for instruction in request.form.to_dict():
+            if 'method' in instruction:
+                instructions.append(instruction)
+        for i in range(1, len(instructions) + 1):
+            method.append(request.form.get('method-' + str(i)))
+
+        ingredients = []
+        quantity = []
+        ingredient = []
+        for ing in request.form.to_dict():
+            if 'ingredient-qty-' in ing:
+                quantity.append(ing)
+            if 'ingredient-name-' in ing:
+                ingredient.append(ing)
+        for i in range(1, len(quantity) + 1):
+            quantity = request.form.get('ingredient-qty-' + str(i))
+            ingredient = request.form.get('ingredient-name-' + str(i))
+            ingredients.append([quantity, ingredient])
+           
         recipe = {
             "title": request.form.get("title"),
             "cuisine": request.form.get("cuisine_name"),
             "allergens": request.form.getlist("Allergen_name"),
-            "ingredients": request.form.getlist("ingredients_name"),
-            "instructions": request.form.getlist("instructions_name"),
+            "ingredients": ingredients,
+            "instructions": method,
             "author": session["user"]
         }
         mongo.db.recipies.insert_one(recipe)
