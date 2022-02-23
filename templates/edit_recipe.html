@@ -58,17 +58,17 @@
                     <div class="ingredients">
                         <h5 class="mb-20 center-align indigo-text text-darken-4"><strong>Ingredients</strong></h5>
 
-                        {% for ingredient in recipe.ingredients %}
+                        {% for i in recipe.ingredients %}
                         <div class="ingredient">
                             <div class="input-field col s4">
-                                <input id="quantity" name="ingredient-qty-{{ loop.index }}" type="text" value="{{ ingredient[0] }}" class="validate" autocomplete="off" required>
+                                <input id="quantity" name="ingredient-qty-{{ loop.index }}" type="text" value="{{ i[0] }}" class="validate" autocomplete="off" required>
                                 <label for="quantity">Quantity</label>
                             </div>
                             <div class="input-field col s8">
                                 <select class="ingredient-list" name="ingredient-name-{{ loop.index }}" required>
                                     <option value="" disabled selected>Select Ingredient</option>
                                     {% for ingredient in ingredients %}
-                                        {% if ingredient.ingredient_name == ingredient[1] %}
+                                        {% if ingredient.ingredient_name == i[1] %}
                                             <option value="{{ ingredient.ingredient_name }}" selected>{{ ingredient.ingredient_name }}</option>
                                         {% else %}
                                             <option value="{{ ingredient.ingredient_name }}">{{ ingredient.ingredient_name }}</option>
@@ -103,7 +103,7 @@
                         <div class="input-field col s12 mt-0">
                             <ol id="method-list" class="mt-10">
 
-                                {% for step in recipe.instructions %}
+                                {% for method in recipe.instructions %}
                                 <li class="method">
                                     <input name="method-{{ loop.index }}" value="{{ method }}" type="text" class="validate" autocomplete="off" required>
                                 </li>

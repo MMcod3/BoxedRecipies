@@ -196,7 +196,7 @@ def edit_recipe(recipe_id):
             "instructions": method,
             "author": session["user"]
         }
-        mongo.db.recipies.update({"_id": ObjectId(recipe_id)}, submit)
+        mongo.db.recipies.update_one({"_id": ObjectId(recipe_id)}, {'$set': submit })
         flash("Recipe Edited!")
         return redirect(url_for("all_recipes"))
 
@@ -216,5 +216,5 @@ def edit_recipe(recipe_id):
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)
 
